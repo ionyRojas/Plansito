@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Plansito</string>
+    <string name="task">Task</string>
+    <string name="description">Description</string>
+    <string name="jan_01_2021">JAN 01 2021</string>
+    <string name="_12_00">12:00</string>
+    <string name="save_task">Save Task</string>
 </resources>
