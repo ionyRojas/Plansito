@@ -6,24 +6,26 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Locale;
 
 public class CreateTask extends AppCompatActivity {
-
     private DatePickerDialog datePickerDialog;
-    private Button dateButton;
-
-    private View task;
-    private View description;
-
-    Button timeButton;
+    private Button dateButton, timeButton;
+    private TextView task, description;
     int hour, minute;
 
     @SuppressLint("WrongViewCast")
@@ -40,10 +42,8 @@ public class CreateTask extends AppCompatActivity {
 
         timeButton = findViewById(R.id.cgChooseTime);
 
-        task = findViewById(R.id.task);
-        description = findViewById(R.id.description);
-
-
+        task = (TextView) findViewById(R.id.task);
+        description = (TextView) findViewById(R.id.description);
     }
 
     private String getTodaysDate() {
@@ -78,8 +78,6 @@ public class CreateTask extends AppCompatActivity {
     }
 
     private String getMonthFormat(int month) {
-        if(month == 1)
-            return "JAN";
         if(month == 2)
             return "FEB";
         if(month == 3)
@@ -103,7 +101,7 @@ public class CreateTask extends AppCompatActivity {
         if(month == 12)
             return "DEC";
 
-        //Default should never be reached!
+
         return "JAN";
     }
 
@@ -127,5 +125,44 @@ public class CreateTask extends AppCompatActivity {
 
         timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();
+    }
+
+    public void createTask(View view) {
+        SQLiteDatabase db = DataSource.dBConnection.getWritableDatabase();
+        String nameMessage = task.getText().toString();
+        String descriptionMessage = description.getText().toString();
+        String dateText = dateButton.getText().toString();
+        String timeText = timeButton.getText().toString();
+
+        if (!nameMessage.isEmpty() && !descriptionMessage.isEmpty() && !dateText.isEmpty() && !timeText.isEmpty() ) {
+            ContentValues newTask = new ContentValues();
+
+            newTask.put("name", nameMessage);
+            newTask.put("description", descriptionMessage);
+            newTask.put("due_date", dateText + " " + timeText);
+            db.insert("tasks", null, newTask);
+            task.setText("");
+            description.setText("");
+        } else {
+            Toast.makeText(this, "Error: you need to fill all the fields", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    // TODO: we need to implement the get task to get the task from the db
+    public void getTask(View view) {
+//        SQLiteDatabase db = dbConnection.getWritableDatabase();
+//        Cursor row = db.rawQuery
+//                ("select name, description, due_date from tasks where id=" + id, null);
+
+//        Cursor row = db.rawQuery
+//                ("select * from task", null");
+//
+//        if (row.moveToFirst()) {
+//            tvName.setText(row.getString(0));
+//            tvDescription.setText(row.getString(1));
+//            tvDueDate.setText(row.getString(2));
+//        } else {
+//            Toast.makeText(this, "Error: yo don't have any tasks", Toast.LENGTH_LONG).show();
+//        }
     }
 }
