@@ -14,4 +14,4 @@ Course CS246 - Software Design and Development
 
 ## TODO
 
-- add isActive field in the database
+- [ ] add isActive field in the database
