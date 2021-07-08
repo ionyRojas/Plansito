@@ -10,3 +10,8 @@ Course CS246 - Software Design and Development
 - Javier Sandes
 - Jacob Haney
 - Jonathan Rojas
+
+
+## TODO
+
+- add isActive field in the database
