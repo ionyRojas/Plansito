@@ -15,3 +15,4 @@ Course CS246 - Software Design and Development
 ## TODO
 
 - [ ] add isActive field in the database
+- [ ] add Categories field in the database
