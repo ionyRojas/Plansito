@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView tv;
     private ListView listViewTask;
+    List<Task> taskList;
 
 
     DataSource dataSource;
@@ -54,22 +56,35 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = DataSource.dBConnection.getWritableDatabase();
         Cursor row = db.rawQuery
                 ("select * from tasks ", null);
-        if (!row.moveToFirst()) {
+
+        taskList=new ArrayList<>();
+
+        if (row.moveToFirst()) {
+            do {
+                taskList.add(new Task(row.getString(0), row.getString(1), row.getString(2), row.getString(3)));
+            } while(row.moveToNext());
+        } else {
             Toast.makeText(this, "Error: yo don't have any tasks", Toast.LENGTH_LONG).show();
-        } else { row.moveToPrevious(); }
-
-        List<String> taskList = new ArrayList<String>();
-
-        while  (row.moveToNext()) {
-            taskList.add(row.getString(0) + " " + row.getString(1) + " " + row.getString(2) + " " + row.getString(3));
-
         }
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                taskList
-        );
+
+        CustomAdapter arrayAdapter=new CustomAdapter(this, taskList);
+
         listViewTask.setAdapter(arrayAdapter);
+
+//        listViewTask.setOnItemClickListener((adapterView, view, i, l) -> {
+//            Task task = taskList.get(i);
+//            Log.d("jonatest", task.name);
+//            Toast.makeText(getBaseContext(), task.description, Toast.LENGTH_LONG).show();
+//        });
+
+        listViewTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Task task = taskList.get(i);
+                Log.d("jonatest", task.name);
+                Toast.makeText(getBaseContext(), task.description, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public void goToCreateTask(View view) {
