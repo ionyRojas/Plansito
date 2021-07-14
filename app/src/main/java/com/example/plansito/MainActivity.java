@@ -71,12 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
         listViewTask.setAdapter(arrayAdapter);
 
-//        listViewTask.setOnItemClickListener((adapterView, view, i, l) -> {
-//            Task task = taskList.get(i);
-//            Log.d("jonatest", task.name);
-//            Toast.makeText(getBaseContext(), task.description, Toast.LENGTH_LONG).show();
-//        });
-
         listViewTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
