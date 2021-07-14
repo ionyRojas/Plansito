@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 
 
 public class DBConnection extends SQLiteOpenHelper {
-    final String CREATE_TASK_TABLE="CREATE TABLE tasks (id INTEGER PRIMARY KEY, name TEXT NOT NULL, description TEXT NOT NULL, due_date TEXT NOT NULL)";
+    final String CREATE_TASK_TABLE="CREATE TABLE tasks (id INTEGER PRIMARY KEY, name TEXT NOT NULL, description TEXT NOT NULL, due_date TEXT NOT NULL, is_active BOOLEAN NOT NULL CHECK (is_active IN (0, 1)) DEFAULT 1, category TEXT )";
     public static final String DB_FILE_NAME = "task_app.db" ;
     public static final int DB_VERSION = 1;
 

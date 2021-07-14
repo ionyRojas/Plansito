@@ -1,6 +1,7 @@
 package com.example.plansito;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,13 +9,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 public class CustomAdapter extends BaseAdapter {
     Context context;
     List<Task> lst;
+    public static final String TASK_ID = "com.example.plansito.TASK_ID";
+    public static final String TASK_NAME = "com.example.plansito.TASK_NAME";
+    public static final String TASK_DESCRIPTION = "com.example.plansito.TASK_DESCRIPTION";
+    public static final String TASK_DUE_DATE = "com.example.plansito.TASK_DUE_DATE";
 
     public CustomAdapter(Context context, List<Task> lst) {
         this.context = context;
@@ -57,6 +61,13 @@ public class CustomAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Log.d("jonaTest", task.id);
+                Intent intent = new Intent(context, CreateTask.class);
+                intent.putExtra(TASK_ID, task.id );
+                intent.putExtra(TASK_NAME, task.name);
+                intent.putExtra(TASK_DESCRIPTION, task.description);
+                intent.putExtra(TASK_DUE_DATE, task.dueDate);
+
+                context.startActivity(intent);
             }
         });
 
