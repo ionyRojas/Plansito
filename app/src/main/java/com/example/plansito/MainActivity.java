@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private void getAllTask() {
         SQLiteDatabase db = DataSource.dBConnection.getWritableDatabase();
         Cursor row = db.rawQuery
-                ("select * from tasks ", null);
+                ("select * from tasks WHERE is_active IS NOT 0", null);
 
         taskList=new ArrayList<>();
 
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 taskList.add(new Task(row.getString(0), row.getString(1), row.getString(2), row.getString(3)));
             } while(row.moveToNext());
         } else {
-            Toast.makeText(this, "Error: yo don't have any tasks", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error: you don't have any tasks", Toast.LENGTH_LONG).show();
         }
 
         CustomAdapter arrayAdapter=new CustomAdapter(this, taskList);

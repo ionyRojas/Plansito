@@ -75,6 +75,10 @@ public class CustomAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Log.d("jonaTest", task.id);
+                Intent intent = new Intent(context, DeleteActivity.class);
+                intent.putExtra(TASK_ID, task.id );
+
+                context.startActivity(intent);
             }
         });
 
