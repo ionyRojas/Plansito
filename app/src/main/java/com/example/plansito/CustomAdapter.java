@@ -47,6 +47,7 @@ public class CustomAdapter extends BaseAdapter {
         TextView textViewDueDate;
         Button delButton;
         Button editButton;
+        Button readyButton;
 
         Task task = lst.get(position);
 
@@ -58,6 +59,7 @@ public class CustomAdapter extends BaseAdapter {
         textViewDueDate=convertView.findViewById(R.id.textViewDueDate);
         delButton=convertView.findViewById(R.id.delButton);
         editButton=convertView.findViewById(R.id.editButton);
+        readyButton=convertView.findViewById(R.id.readyButton);
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +80,17 @@ public class CustomAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Log.d("jonaTest", task.id);
                 Intent intent = new Intent(context, DeleteActivity.class);
+                intent.putExtra(TASK_ID, task.id );
+
+                context.startActivity(intent);
+            }
+        });
+
+        readyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("jonaTest", task.id);
+                Intent intent = new Intent(context, CompleteActivity.class);
                 intent.putExtra(TASK_ID, task.id );
 
                 context.startActivity(intent);
