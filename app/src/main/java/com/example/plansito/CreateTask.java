@@ -1,14 +1,18 @@
 package com.example.plansito;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +21,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class CreateTask extends AppCompatActivity {
@@ -31,6 +37,7 @@ public class CreateTask extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createNotificationChannel();
         setContentView(R.layout.activity_create_task);
 
         setTitle("New Task");
@@ -38,13 +45,18 @@ public class CreateTask extends AppCompatActivity {
         initDatePicker();
         dateButton = findViewById(R.id.datePickerButton);
         dateButton.setText(getTodaysDate());
-
         timeButton = findViewById(R.id.cgChooseTime);
-
+        timeButton.setText(currentTime());
         task = findViewById(R.id.task);
         description = findViewById(R.id.description);
 
         this.getIntentData();
+    }
+
+    public String currentTime() {
+        Date currentDate = new Date();
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+        return timeFormat.format(currentDate);
     }
 
     private void getIntentData() {
@@ -83,7 +95,6 @@ public class CreateTask extends AppCompatActivity {
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-
         datePickerDialog = new DatePickerDialog(this, dateSetListener, year, month, dayOfMonth);
     }
 
@@ -124,13 +135,24 @@ public class CreateTask extends AppCompatActivity {
     }
 
     public void popTimePicker(View view) {
-        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
-                hour = selectedHour;
-                minute = selectedMinute;
-                timeButton.setText(String.format(Locale.getDefault(), "%02d:%02d",hour,minute));
+        TimePickerDialog.OnTimeSetListener onTimeSetListener = (view1, selectedHour, selectedMinute) -> {
+            String am_pm;
+            String minute;
+            Calendar datetime = Calendar.getInstance();
+            datetime.set(Calendar.HOUR_OF_DAY, selectedHour);
+            datetime.set(Calendar.MINUTE, selectedMinute);
+            if (datetime.get(Calendar.AM_PM) == Calendar.AM) {
+                am_pm = "AM";
+            } else {
+                am_pm = "PM";
             }
+            if (datetime.get(Calendar.MINUTE) < 10) {
+                minute = "0" + Integer.toString(datetime.get(Calendar.MINUTE));
+            } else {
+                minute = Integer.toString(datetime.get(Calendar.MINUTE));
+            }
+            String timeFormat = (datetime.get(Calendar.HOUR) == 0) ? "12" : datetime.get(Calendar.HOUR) + "";
+            timeButton.setText(timeFormat + ":" + minute + " " + am_pm);
         };
 
         int style = AlertDialog.THEME_HOLO_DARK;
@@ -153,6 +175,8 @@ public class CreateTask extends AppCompatActivity {
                     nameMessage +
                     "', description = '" +
                     descriptionMessage +
+                    "', due_date = '" +
+                    dateText + " " + timeText +
                     "' WHERE id = " +
                     Integer.parseInt(taskId);
             db.execSQL(strSQL);
@@ -172,6 +196,31 @@ public class CreateTask extends AppCompatActivity {
             description.setText("");
         } else {
             Toast.makeText(this, "Error: you need to fill all the fields", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
+        Intent intent = new Intent(CreateTask.this, ReminderBroadcast.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(CreateTask.this, 0, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        long timeAtButtonClick = System.currentTimeMillis();
+        long tenSeconds = 100 * 10;
+        alarmManager.set(AlarmManager.RTC_WAKEUP,
+                timeAtButtonClick + tenSeconds,
+                pendingIntent);
+        finish();
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "PlancitoChannel";
+            String description = "Plancito Description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notifyPlancito", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 }

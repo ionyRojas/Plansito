@@ -44,6 +44,7 @@ public class CustomAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView textViewTitle;
         TextView textViewDesc;
+        TextView textViewDueDate;
         Button delButton;
         Button editButton;
 
@@ -54,6 +55,7 @@ public class CustomAdapter extends BaseAdapter {
 
         textViewTitle= convertView.findViewById(R.id.textViewTitle);
         textViewDesc=convertView.findViewById(R.id.textViewDesc);
+        textViewDueDate=convertView.findViewById(R.id.textViewDueDate);
         delButton=convertView.findViewById(R.id.delButton);
         editButton=convertView.findViewById(R.id.editButton);
 
@@ -84,6 +86,7 @@ public class CustomAdapter extends BaseAdapter {
 
         textViewTitle.setText(task.name);
         textViewDesc.setText(task.description);
+        textViewDueDate.setText(task.dueDate);
 
         return convertView;
     }
