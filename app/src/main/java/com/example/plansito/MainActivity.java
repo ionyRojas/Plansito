@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private void getAllTask() {
         SQLiteDatabase db = DataSource.dBConnection.getWritableDatabase();
         Cursor row = db.rawQuery
-                ("select * from tasks WHERE is_active IS NOT 0", null);
+                ("select * from tasks WHERE is_active IS NOT 0 AND is_complete IS NOT 0", null);
 
         taskList=new ArrayList<>();
 
