@@ -9,9 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,7 +17,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView tv;
     private ListView listViewTask;
     List<Task> taskList;
 
@@ -31,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("Plancito");
-        tv = findViewById(R.id.textView);
-
         dataSource = new DataSource(this);
         dataSource.open();
         listViewTask = findViewById(R.id.listViewTask);
@@ -64,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 taskList.add(new Task(row.getString(0), row.getString(1), row.getString(2), row.getString(3)));
             } while(row.moveToNext());
         } else {
-            Toast.makeText(this, "Error: you don't have any tasks", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "you don't have any tasks", Toast.LENGTH_LONG).show();
         }
 
         CustomAdapter arrayAdapter=new CustomAdapter(this, taskList);
