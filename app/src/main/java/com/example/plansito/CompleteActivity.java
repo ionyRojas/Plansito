@@ -25,7 +25,7 @@ public class CompleteActivity extends AppCompatActivity {
     }
 
     public void onCompleteTask(View view) {
-        Toast.makeText(this, "Your task has been deleted", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Your task has been completed", Toast.LENGTH_LONG).show();
 
         if (taskId != null && !taskId.isEmpty()) {
             SQLiteDatabase db = DataSource.dBConnection.getWritableDatabase();

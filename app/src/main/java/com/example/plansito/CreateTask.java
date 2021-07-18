@@ -54,12 +54,16 @@ public class CreateTask extends AppCompatActivity {
     }
 
     public String currentTime() {
+        //Gets the Current Time, and sets it to a simple Format
+
         Date currentDate = new Date();
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
         return timeFormat.format(currentDate);
     }
 
     private void getIntentData() {
+        //Get the initial data for the ID, Name, Description, and DueDate
+
         Intent intent = getIntent();
         taskId = intent.getStringExtra(CustomAdapter.TASK_ID);
         taskName = intent.getStringExtra(CustomAdapter.TASK_NAME);
@@ -73,6 +77,8 @@ public class CreateTask extends AppCompatActivity {
     }
 
     private String getTodaysDate() {
+        //Gets The Current Date
+
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
@@ -82,6 +88,8 @@ public class CreateTask extends AppCompatActivity {
     }
 
     private void initDatePicker() {
+        //Creates the popUp Date Time Picker.
+
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -99,10 +107,14 @@ public class CreateTask extends AppCompatActivity {
     }
 
     private String makeDateString(int dayOfMonth, int month, int year){
+        //Formats the Date into Month Day Year Format
+
         return getMonthFormat(month) + " " + dayOfMonth + " " + year;
     }
 
     private String getMonthFormat(int month) {
+        //Format The Month to display the abbreviated Month Name
+
         if(month == 2)
             return "FEB";
         if(month == 3)
@@ -131,10 +143,13 @@ public class CreateTask extends AppCompatActivity {
     }
 
     public void openDatePicker(View view) {
+        //Opens the popUp Date Picker
         datePickerDialog.show();
     }
 
     public void popTimePicker(View view) {
+        //Creates the PopUp Time Picker
+        //Format The Time to include AM or PM
         TimePickerDialog.OnTimeSetListener onTimeSetListener = (view1, selectedHour, selectedMinute) -> {
             String am_pm;
             String minute;
@@ -164,6 +179,8 @@ public class CreateTask extends AppCompatActivity {
     }
 
     public void createTask(View view) {
+        //Inputs the New Task into the SQLite DataBase
+
         SQLiteDatabase db = DataSource.dBConnection.getWritableDatabase();
         String nameMessage = task.getText().toString();
         String descriptionMessage = description.getText().toString();
@@ -212,6 +229,8 @@ public class CreateTask extends AppCompatActivity {
     }
 
     private void createNotificationChannel() {
+        //Creates the Notification Channel for our Notifications
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "PlancitoChannel";
             String description = "Plancito Description";

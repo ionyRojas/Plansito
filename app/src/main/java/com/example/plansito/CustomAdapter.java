@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 public class CustomAdapter extends BaseAdapter {
+    //This class is used to as an adapter for the Edit Delete and Ready Buttons
     Context context;
     List<Task> lst;
     public static final String TASK_ID = "com.example.plansito.TASK_ID";
@@ -42,6 +43,7 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        //gets the view of the different elements in the app
         TextView textViewTitle;
         TextView textViewDesc;
         TextView textViewDueDate;
@@ -64,6 +66,7 @@ public class CustomAdapter extends BaseAdapter {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Initiates the edit task view
                 Log.d("jonaTest", task.id);
                 Intent intent = new Intent(context, CreateTask.class);
                 intent.putExtra(TASK_ID, task.id );
@@ -78,6 +81,7 @@ public class CustomAdapter extends BaseAdapter {
         delButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Initiates the delete task view
                 Log.d("jonaTest", task.id);
                 Intent intent = new Intent(context, DeleteActivity.class);
                 intent.putExtra(TASK_ID, task.id );
@@ -89,6 +93,7 @@ public class CustomAdapter extends BaseAdapter {
         readyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Initiates the ready task view
                 Log.d("jonaTest", task.id);
                 Intent intent = new Intent(context, CompleteActivity.class);
                 intent.putExtra(TASK_ID, task.id );

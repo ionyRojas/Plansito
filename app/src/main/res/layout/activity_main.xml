@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#B9E3F6"
     tools:context=".MainActivity">
 
 
@@ -14,6 +15,7 @@
         android:layout_marginTop="56dp"
         android:onClick="goToCreateTask"
         android:text="create task"
+        app:backgroundTint="#EA400B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +25,7 @@
         android:id="@+id/listViewTask"
         android:layout_width="368dp"
         android:layout_height="495dp"
+        android:background="#C0DFF8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

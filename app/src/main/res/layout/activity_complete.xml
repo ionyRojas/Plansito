@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#B9E3F6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CompleteActivity">
@@ -25,6 +26,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="44dp"
+        app:backgroundTint="#EA400B"
         android:onClick="onCompleteTask"
         android:text="yes"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +39,7 @@
         android:layout_marginTop="44dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
+        app:backgroundTint="#EA400B"
         android:onClick="onNotCompleteTask"
         android:text="no"
         app:layout_constraintEnd_toEndOf="parent"

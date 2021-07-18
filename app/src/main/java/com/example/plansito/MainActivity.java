@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getAllTask() {
+        //Get all tasks items from the SQLiteDatabase and display them in the list view
+        //If there are no active Items in the Database Create Toast
+
         SQLiteDatabase db = DataSource.dBConnection.getWritableDatabase();
         Cursor row = db.rawQuery
                 ("select * from tasks WHERE is_active IS NOT 0 AND is_complete IS NOT 0", null);
@@ -76,7 +79,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     public void goToCreateTask(View view) {
+        // When Create Task button is clicked this takes you to the CreateTask View
+
         Intent intent = new Intent(this, CreateTask.class);
         startActivity(intent);
     }

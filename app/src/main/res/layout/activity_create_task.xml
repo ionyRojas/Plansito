@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#B9E3F6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CreateTask">
@@ -80,6 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:onClick="createTask"
+        app:backgroundTint="#EA400B"
         android:text="@string/save_task"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

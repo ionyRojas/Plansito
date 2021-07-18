@@ -1,6 +1,8 @@
 package com.example.plansito;
 
 public class Task {
+    //Stores our used values for use throughout the APP
+
     public String id;
     public String name;
     public String description;
