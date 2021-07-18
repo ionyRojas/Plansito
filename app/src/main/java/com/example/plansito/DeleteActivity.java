@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 public class DeleteActivity extends AppCompatActivity {
+    //Deletes task from list displayed on main screen
     private String taskId;
 
     @Override
@@ -20,14 +21,17 @@ public class DeleteActivity extends AppCompatActivity {
     }
 
     private void getIntentData() {
+        //Receives data
         Intent intent = getIntent();
         taskId = intent.getStringExtra(CustomAdapter.TASK_ID);
     }
 
     public void onDeleteTask(View view) {
+        //Shows a toast upon deletion
         Toast.makeText(this, "Your task has been deleted", Toast.LENGTH_LONG).show();
 
         if (taskId != null && !taskId.isEmpty()) {
+            //Updates database
             SQLiteDatabase db = DataSource.dBConnection.getWritableDatabase();
             String strSQL = "UPDATE tasks SET is_active = '" +
                     0 +
@@ -42,6 +46,7 @@ public class DeleteActivity extends AppCompatActivity {
     }
 
     public void onNotDeleteTask(View view) {
+        //Ends view and returns to main view.
         finish();
     }
 }
